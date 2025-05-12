@@ -12,13 +12,18 @@ class ProductItem extends StatelessWidget {
       child: GridTile(
         child: Image.network(product.imageUrl, fit: BoxFit.cover),
         footer: GridTileBar(
-          leading: IconButton(onPressed: () {}, icon: Icon(Icons.favorite)),
+          leading: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.favorite),
+            color: Theme.of(context).hintColor,
+          ),
           title: Text(product.title, textAlign: TextAlign.center),
           trailing: IconButton(
             onPressed: () {},
             icon: const Icon(Icons.shopping_cart),
+            color: Theme.of(context).hintColor,
           ),
-          backgroundColor: Colors.black45,
+          backgroundColor: Colors.black87,
         ),
       ),
     );
