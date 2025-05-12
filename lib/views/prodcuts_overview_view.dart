@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/data/dummy_data.dart';
 import 'package:minha_loja/models/product.dart';
+import 'package:minha_loja/widgets/product_item.dart';
 
 class ProdcutsOverviewView extends StatelessWidget {
   final List<Product> loadedProducts = dummyProduct;
@@ -10,22 +11,18 @@ class ProdcutsOverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Minha Loja')),
-      body: Padding(
+      body: GridView(
         padding: const EdgeInsets.all(10),
-        child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 3 / 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-          ),
-          children:
-              loadedProducts
-                  .map(
-                    (prod) => Card(child: Column(children: [Text(prod.title)])),
-                  )
-                  .toList(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 3 / 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
+        children:
+            loadedProducts
+                .map((prod) => ProductItem(product: prod)) // direto aqui
+                .toList(),
       ),
     );
   }
