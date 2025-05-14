@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minha_loja/providers/product_list.dart';
 
 import 'package:minha_loja/widgets/product_grid.dart';
-import 'package:provider/provider.dart';
 
 enum FilterOptions { favorites, all }
 
@@ -29,12 +27,12 @@ class _ProdcutsOverviewViewState extends State<ProdcutsOverviewView> {
             itemBuilder:
                 (_) => [
                   PopupMenuItem(
-                    child: const Text('Favoritos'),
                     value: FilterOptions.favorites,
+                    child: const Text('Favoritos'),
                   ),
                   PopupMenuItem(
-                    child: const Text('Todos'),
                     value: FilterOptions.all,
+                    child: const Text('Todos'),
                   ),
                 ],
             onSelected: (FilterOptions selectedValue) {
