@@ -32,11 +32,21 @@ class CartItemWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListTile(
             leading: CircleAvatar(
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: FittedBox(child: Text('R\$${cartItem.price}')),
-              ),
+              radius: 25, // ajuste se quiser maior/menor
+              backgroundColor: Colors.grey[200],
+              child:
+                  cartItem.imageUrl != null && cartItem.imageUrl!.isNotEmpty
+                      ? ClipOval(
+                        child: Image.network(
+                          cartItem.imageUrl!,
+                          fit: BoxFit.cover,
+                          width: 50,
+                          height: 50,
+                        ),
+                      )
+                      : const Icon(Icons.image_not_supported),
             ),
+
             title: Text(cartItem.name),
             subtitle: Text('R\$${cartItem.price * cartItem.quantity}'),
             trailing: Text(

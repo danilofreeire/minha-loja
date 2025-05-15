@@ -17,70 +17,67 @@ class CartView extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Card(
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total', style: TextStyle(fontSize: 20)),
-                  SizedBox(width: 20),
-
-                  Text(
-                    'R\$${cart.totalAmount.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+      body: ListView.builder(
+        padding: const EdgeInsets.only(
+          bottom: 100,
+        ), // espaço para não cobrir o botão
+        itemCount: cart.itemsCount,
+        itemBuilder: (ctx, i) => CartItemWidget(cartItem: items[i]),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF7F2FB),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(16),
+            topRight: Radius.circular(16),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0, -1),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Total:', style: TextStyle(fontSize: 18)),
+                Text(
+                  'R\$${cart.totalAmount.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
                   ),
-
-                  // Chip(
-                  //   labelPadding: const EdgeInsets.all(4),
-                  //   backgroundColor: Theme.of(context).primaryColor,
-                  //   label: Text(
-                  //     'R\$1000',
-                  //     style: TextStyle(
-                  //       color:
-                  //           Theme.of(
-                  //             context,
-                  //           ).primaryTextTheme.headlineLarge?.color,
-                  //     ),
-                  //   ),
-                  // ),
-                  Spacer(),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('COMPRAR'),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor:
-                          Theme.of(
-                            context,
-                          ).primaryTextTheme.headlineLarge?.color,
-                      textStyle: TextStyle(
-                        color:
-                            Theme.of(
-                              context,
-                            ).primaryTextTheme.headlineLarge?.color,
-                      ),
-                    ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
+                ),
+                child: const Text(
+                  'COMPRAR',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
               ),
             ),
-          ),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: cart.itemsCount,
-              itemBuilder: (ctx, i) => CartItemWidget(cartItem: items[i]),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
