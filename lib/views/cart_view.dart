@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/cart.dart';
+import 'package:minha_loja/widgets/cart_item_widget.dart';
 import 'package:provider/provider.dart';
 
 class CartView extends StatelessWidget {
@@ -8,6 +9,7 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Cart cart = Provider.of<Cart>(context);
+    final items = cart.items.values.toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -69,6 +71,13 @@ class CartView extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          ),
+
+          Expanded(
+            child: ListView.builder(
+              itemCount: cart.itemsCount,
+              itemBuilder: (ctx, i) => CartItemWidget(cartItem: items[i]),
             ),
           ),
         ],
