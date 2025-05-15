@@ -30,7 +30,7 @@ class Cart with ChangeNotifier {
           name: existingItem.name,
           quantity: existingItem.quantity + 1,
           price: existingItem.price,
-          productId: '',
+          productId: product.id,
         ),
       );
     } else {
