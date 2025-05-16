@@ -4,6 +4,7 @@ import 'package:minha_loja/models/order_list.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/utils/app_routes.dart';
 import 'package:minha_loja/views/cart_view.dart';
+import 'package:minha_loja/views/orders_view.dart';
 import 'package:minha_loja/views/prodcuts_overview_view.dart';
 import 'package:minha_loja/views/product_detail_view.dart';
 import 'package:provider/provider.dart';
@@ -31,10 +32,11 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: ProdcutsOverviewView(),
         routes: {
+          AppRoutes.HOME: (ctx) => ProdcutsOverviewView(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailView(),
           AppRoutes.CART: (ctx) => CartView(),
+          AppRoutes.ORDERS: (ctx) => OrdersView(),
         },
         debugShowCheckedModeBanner: false,
       ),
