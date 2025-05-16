@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/cart.dart';
+import 'package:minha_loja/models/order.dart';
+import 'package:minha_loja/models/order_list.dart';
 import 'package:minha_loja/widgets/cart_item_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +64,10 @@ class CartView extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<OrderList>(context, listen: false).addOrder(cart);
+                  cart.clear();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 24),
