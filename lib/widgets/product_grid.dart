@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/product_list.dart';
-import 'package:minha_loja/widgets/product_item.dart';
+import 'package:minha_loja/widgets/product_grid_item.dart';
 import 'package:provider/provider.dart';
 
 class ProductGrid extends StatelessWidget {
@@ -27,7 +27,7 @@ class ProductGrid extends StatelessWidget {
               .map(
                 (prod) => ChangeNotifierProvider.value(
                   value: prod,
-                  child: ProductItem(),
+                  child: ProductGridItem(),
                 ),
               ) // direto aqui
               .toList(),
