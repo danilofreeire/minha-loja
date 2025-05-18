@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/product_item.dart';
 import 'package:minha_loja/models/product_list.dart';
+import 'package:minha_loja/utils/app_routes.dart';
 import 'package:minha_loja/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -16,6 +17,14 @@ class ProductsView extends StatelessWidget {
         title: const Text('Gerenciar Produtos'),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.PRODUCT_FORM);
+            },
+          ),
+        ],
       ),
       drawer: AppDrawer(),
       body: Padding(
