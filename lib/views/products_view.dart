@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minha_loja/models/product_item.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
@@ -22,12 +23,11 @@ class ProductsView extends StatelessWidget {
         child: ListView.builder(
           itemCount: products.itemsCount,
           itemBuilder:
-              (ctx, i) => Text(
-                products.items[i].name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              (ctx, i) => Column(
+                children: [
+                  ProductItem(product: products.items[i]),
+                  const Divider(),
+                ],
               ),
         ),
       ),
