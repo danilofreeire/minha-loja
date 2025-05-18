@@ -30,6 +30,7 @@ class ProductGridItem extends StatelessWidget {
           title: Text(product.name, textAlign: TextAlign.center),
           trailing: IconButton(
             onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Produto adicionado com sucesso!'),
