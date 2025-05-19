@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:minha_loja/models/product.dart';
 
 class ProductFormView extends StatefulWidget {
   const ProductFormView({super.key});
@@ -13,6 +16,10 @@ class _ProductFormViewState extends State<ProductFormView> {
 
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
+
+  final _globalKey = GlobalKey<FormState>();
+
+  final _formData = Map<String, Object>();
 
   @override
   void initState() {
@@ -34,6 +41,25 @@ class _ProductFormViewState extends State<ProductFormView> {
     setState(() {});
   }
 
+  void _submitForm() {
+    _globalKey.currentState?.save();
+    final newProduct = Product(
+      id: Random().nextDouble().toString(),
+      name: _formData['name'] as String,
+      price: _formData['price'] as double,
+      description: _formData['description'] as String,
+      imageUrl: _formData['imageUrl'] as String,
+    );
+    print('-------------------');
+
+    print(newProduct.id);
+    print(newProduct.name);
+    print(newProduct.price);
+    print(newProduct.description);
+    print(newProduct.imageUrl);
+    print('-------------------');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +67,14 @@ class _ProductFormViewState extends State<ProductFormView> {
         title: const Text('Formulário de Produto'),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(onPressed: _submitForm, icon: const Icon(Icons.save)),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: Form(
+          key: _globalKey,
           child: ListView(
             children: [
               TextFormField(
@@ -53,6 +83,7 @@ class _ProductFormViewState extends State<ProductFormView> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
+                onSaved: (name) => _formData['name'] = name ?? '',
               ),
 
               TextFormField(
@@ -63,6 +94,8 @@ class _ProductFormViewState extends State<ProductFormView> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
+                onSaved:
+                    (price) => _formData['price'] = double.parse(price!) ?? '0',
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Descrição'),
@@ -70,6 +103,9 @@ class _ProductFormViewState extends State<ProductFormView> {
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
+                onSaved:
+                    (description) =>
+                        _formData['description'] = description ?? '',
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,6 +118,9 @@ class _ProductFormViewState extends State<ProductFormView> {
                       focusNode: _imageUrlFocus,
                       keyboardType: TextInputType.url,
                       controller: _imageUrlController,
+                      onFieldSubmitted: (_) => _submitForm(),
+                      onSaved:
+                          (imageUrl) => _formData['imageUrl'] = imageUrl ?? '',
                     ),
                   ),
                   Container(
