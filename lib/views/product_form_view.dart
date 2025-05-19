@@ -41,6 +41,15 @@ class _ProductFormViewState extends State<ProductFormView> {
     setState(() {});
   }
 
+  bool isValidImageUrl(String url) {
+    bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
+    bool endsWithFile =
+        url.toLowerCase().endsWith('.png') ||
+        url.toLowerCase().endsWith('.jpg') ||
+        url.toLowerCase().endsWith('.jpeg');
+    return isValidUrl && endsWithFile;
+  }
+
   void _submitForm() {
     final isValid = _globalKey.currentState?.validate() ?? false;
     if (!isValid) {
@@ -102,6 +111,15 @@ class _ProductFormViewState extends State<ProductFormView> {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
                 onSaved: (price) => _formData['price'] = double.parse(price!),
+                validator: (_price) {
+                  final priceValue = _price ?? '';
+                  final priceNumber = double.tryParse(priceValue) ?? -1;
+
+                  if (priceNumber <= 0) {
+                    return 'Informe um preço maior que zero';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Descrição'),
@@ -112,6 +130,16 @@ class _ProductFormViewState extends State<ProductFormView> {
                 onSaved:
                     (description) =>
                         _formData['description'] = description ?? '',
+                validator: (_description) {
+                  final descriptionValue = _description ?? '';
+                  if (descriptionValue.trim().isEmpty) {
+                    return 'A descrição é obrigatória';
+                  }
+                  if (descriptionValue.trim().length < 10) {
+                    return 'A descrição deve ter pelo menos 10 letras';
+                  }
+                  return null;
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,6 +155,14 @@ class _ProductFormViewState extends State<ProductFormView> {
                       onFieldSubmitted: (_) => _submitForm(),
                       onSaved:
                           (imageUrl) => _formData['imageUrl'] = imageUrl ?? '',
+                      validator: (_imageUrl) {
+                        final imageUrlValue = _imageUrl ?? '';
+                        if (!isValidImageUrl(imageUrlValue)) {
+                          return 'Informe uma URL válida';
+                        }
+
+                        return null;
+                      },
                     ),
                   ),
                   Container(
