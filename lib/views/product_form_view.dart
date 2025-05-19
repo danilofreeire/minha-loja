@@ -42,6 +42,11 @@ class _ProductFormViewState extends State<ProductFormView> {
   }
 
   void _submitForm() {
+    final isValid = _globalKey.currentState?.validate() ?? false;
+    if (!isValid) {
+      return;
+    }
+
     _globalKey.currentState?.save();
     final newProduct = Product(
       id: Random().nextDouble().toString(),
@@ -50,14 +55,6 @@ class _ProductFormViewState extends State<ProductFormView> {
       description: _formData['description'] as String,
       imageUrl: _formData['imageUrl'] as String,
     );
-    print('-------------------');
-
-    print(newProduct.id);
-    print(newProduct.name);
-    print(newProduct.price);
-    print(newProduct.description);
-    print(newProduct.imageUrl);
-    print('-------------------');
   }
 
   @override
@@ -84,6 +81,16 @@ class _ProductFormViewState extends State<ProductFormView> {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
                 onSaved: (name) => _formData['name'] = name ?? '',
+                validator: (_name) {
+                  final nameValue = _name ?? '';
+                  if (nameValue.trim().isEmpty) {
+                    return 'O nome é obrigatório';
+                  }
+                  if (nameValue.trim().length < 3) {
+                    return 'O nome deve ter pelo menos 3 letras';
+                  }
+                  return null;
+                },
               ),
 
               TextFormField(
@@ -94,8 +101,7 @@ class _ProductFormViewState extends State<ProductFormView> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                onSaved:
-                    (price) => _formData['price'] = double.parse(price!) ?? '0',
+                onSaved: (price) => _formData['price'] = double.parse(price!),
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Descrição'),
