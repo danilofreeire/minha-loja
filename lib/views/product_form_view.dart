@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minha_loja/models/product.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,25 @@ class _ProductFormViewState extends State<ProductFormView> {
   void initState() {
     super.initState();
     _imageUrlFocus.addListener(updateImage);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    if (_formData.isEmpty) {
+      final arg = ModalRoute.of(context)?.settings.arguments;
+      if (arg != null) {
+        final product = arg as Product;
+        _formData['id'] = product.id;
+        _formData['name'] = product.name;
+        _formData['price'] = product.price;
+        _formData['description'] = product.description;
+        _formData['imageUrl'] = product.imageUrl;
+        _imageUrlController.text = product.imageUrl;
+      }
+    }
   }
 
   @override
@@ -57,10 +77,7 @@ class _ProductFormViewState extends State<ProductFormView> {
 
     _globalKey.currentState?.save();
 
-    Provider.of<ProductList>(
-      context,
-      listen: false,
-    ).addProductFromData(_formData);
+    Provider.of<ProductList>(context, listen: false).saveProduct(_formData);
     Navigator.of(context).pop();
   }
 
@@ -82,6 +99,7 @@ class _ProductFormViewState extends State<ProductFormView> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _formData['name']?.toString(),
                 decoration: InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
@@ -101,6 +119,7 @@ class _ProductFormViewState extends State<ProductFormView> {
               ),
 
               TextFormField(
+                initialValue: _formData['price']?.toString(),
                 decoration: InputDecoration(labelText: 'Preço'),
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
@@ -120,6 +139,7 @@ class _ProductFormViewState extends State<ProductFormView> {
                 },
               ),
               TextFormField(
+                initialValue: _formData['description']?.toString(),
                 decoration: InputDecoration(labelText: 'Descrição'),
                 textInputAction: TextInputAction.next,
                 focusNode: _descriptionFocus,
