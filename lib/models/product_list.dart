@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 import 'package:minha_loja/data/dummy_data.dart';
 import 'package:minha_loja/models/product.dart';
 
 class ProductList with ChangeNotifier {
+  final _baseUrl = 'https://lojatrabalho-d7b82-default-rtdb.firebaseio.com';
+
   List<Product> _items = dummyProducts;
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
@@ -32,6 +36,17 @@ class ProductList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
+    http.post(
+      Uri.parse('$_baseUrl/products.json'),
+      body: jsonEncode({
+        'name': product.name,
+        'price': product.price,
+        'description': product.description,
+        'imageUrl': product.imageUrl,
+        'isFavorite': product.isFavorite,
+      }),
+    );
+
     _items.add(product);
     notifyListeners();
   }
