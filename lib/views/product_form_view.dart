@@ -194,15 +194,9 @@ class _ProductFormViewState extends State<ProductFormView> {
                     child:
                         _imageUrlController.text.isEmpty
                             ? Text('Preview')
-                            : Container(
-                              width: 100,
-                              height: 100,
-                              child: FittedBox(
-                                child: Image.network(
-                                  _imageUrlController.text,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            : Image.network(
+                              _imageUrlController.text,
+                              fit: BoxFit.cover,
                             ),
                   ),
                 ],

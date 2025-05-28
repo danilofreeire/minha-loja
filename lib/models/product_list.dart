@@ -36,7 +36,7 @@ class ProductList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
-    http.post(
+    final future = http.post(
       Uri.parse('$_baseUrl/products.json'),
       body: jsonEncode({
         'name': product.name,
@@ -46,6 +46,24 @@ class ProductList with ChangeNotifier {
         'isFavorite': product.isFavorite,
       }),
     );
+
+    future
+        .then((response) {
+          final id = jsonDecode(response.body)['name'];
+          _items.add(
+            Product(
+              id: id,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+              imageUrl: product.imageUrl,
+            ),
+          );
+          notifyListeners();
+        })
+        .catchError((error) {
+          print('Error adding product: $error');
+        });
 
     _items.add(product);
     notifyListeners();
