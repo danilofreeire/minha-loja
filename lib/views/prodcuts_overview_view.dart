@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/cart.dart';
+import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/utils/app_routes.dart';
 import 'package:minha_loja/widgets/app_drawer.dart';
 import 'package:minha_loja/widgets/badgee.dart';
@@ -18,6 +19,13 @@ class ProdcutsOverviewView extends StatefulWidget {
 
 class _ProdcutsOverviewViewState extends State<ProdcutsOverviewView> {
   bool _showFavoritesOnly = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<ProductList>(context, listen: false).loadProducts();
+  }
 
   @override
   Widget build(BuildContext context) {

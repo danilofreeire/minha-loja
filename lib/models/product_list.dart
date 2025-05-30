@@ -7,7 +7,8 @@ import 'package:minha_loja/data/dummy_data.dart';
 import 'package:minha_loja/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final _baseUrl = 'https://lojatrabalho-d7b82-default-rtdb.firebaseio.com';
+  final _url =
+      'https://lojatrabalho-d7b82-default-rtdb.firebaseio.com/products.json';
 
   List<Product> _items = dummyProducts;
   List<Product> get items => [..._items];
@@ -16,6 +17,11 @@ class ProductList with ChangeNotifier {
 
   int get itemsCount {
     return _items.length;
+  }
+
+  Future<void> loadProducts() async {
+    final response = await http.get(Uri.parse('$_url'));
+    final Map<String, dynamic> data = jsonDecode(response.body);
   }
 
   Future<void> saveProduct(Map<String, Object> data) {
@@ -37,7 +43,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl/products.json'),
+      Uri.parse('$_url'),
       body: jsonEncode({
         'name': product.name,
         'price': product.price,
