@@ -71,7 +71,7 @@ class _ProductFormViewState extends State<ProductFormView> {
     return isValidUrl && endsWithFile;
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     final isValid = _globalKey.currentState?.validate() ?? false;
     if (!isValid) {
       return;
@@ -79,29 +79,30 @@ class _ProductFormViewState extends State<ProductFormView> {
 
     _globalKey.currentState?.save();
     setState(() => _isLoading = true);
-
-    Provider.of<ProductList>(context, listen: false)
-        .saveProduct(_formData)
-        .catchError((error) {
-          return showDialog(
-            context: context,
-            builder:
-                (ctx) => AlertDialog(
-                  title: const Text('Ocorreu um erro!'),
-                  content: const Text('Erro ao salvar o produto. '),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(ctx).pop(),
-                      child: const Text('Fechar'),
-                    ),
-                  ],
+    try {
+      await Provider.of<ProductList>(
+        context,
+        listen: false,
+      ).saveProduct(_formData);
+      Navigator.of(context).pop();
+    } catch (error) {
+      await showDialog(
+        context: context,
+        builder:
+            (ctx) => AlertDialog(
+              title: const Text('Ocorreu um erro!'),
+              content: const Text('Erro ao salvar o produto. '),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: const Text('Fechar'),
                 ),
-          );
-        })
-        .then((value) {
-          setState(() => _isLoading = false);
-          Navigator.of(context).pop();
-        });
+              ],
+            ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -229,9 +230,15 @@ class _ProductFormViewState extends State<ProductFormView> {
                             child:
                                 _imageUrlController.text.isEmpty
                                     ? Text('Preview')
-                                    : Image.network(
-                                      _imageUrlController.text,
-                                      fit: BoxFit.cover,
+                                    : Container(
+                                      width: 100,
+                                      height: 100,
+                                      child: FittedBox(
+                                        child: Image.network(
+                                          _imageUrlController.text,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                           ),
                         ],
