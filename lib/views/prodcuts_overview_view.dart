@@ -25,13 +25,13 @@ class _ProdcutsOverviewViewState extends State<ProdcutsOverviewView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<ProductList>(context, listen: false).loadProducts().then((
-      value,
-    ) {
-      setState(() {
-        _isLoading = false;
-      });
+    // Provider.of<ProductList>(context, listen: false).loadProducts().then((
+    //   value,
+    // ) {
+    setState(() {
+      _isLoading = false;
     });
+    // });
   }
 
   @override

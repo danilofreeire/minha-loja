@@ -8,6 +8,10 @@ import 'package:provider/provider.dart';
 class ProductsView extends StatelessWidget {
   const ProductsView({super.key});
 
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<ProductList>(context, listen: false).loadProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ProductList products = Provider.of<ProductList>(context);
@@ -27,17 +31,20 @@ class ProductsView extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: products.itemsCount,
-          itemBuilder:
-              (ctx, i) => Column(
-                children: [
-                  ProductItem(product: products.items[i]),
-                  const Divider(),
-                ],
-              ),
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: products.itemsCount,
+            itemBuilder:
+                (ctx, i) => Column(
+                  children: [
+                    ProductItem(product: products.items[i]),
+                    const Divider(),
+                  ],
+                ),
+          ),
         ),
       ),
     );
