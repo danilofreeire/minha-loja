@@ -47,23 +47,19 @@ class ProductList with ChangeNotifier {
       }),
     );
 
-    return future
-        .then<void>((response) {
-          final id = jsonDecode(response.body)['name'];
-          _items.add(
-            Product(
-              id: id,
-              name: product.name,
-              price: product.price,
-              description: product.description,
-              imageUrl: product.imageUrl,
-            ),
-          );
-          notifyListeners();
-        })
-        .catchError((error) {
-          print('Error adding product: $error');
-        });
+    return future.then<void>((response) {
+      final id = jsonDecode(response.body)['name'];
+      _items.add(
+        Product(
+          id: id,
+          name: product.name,
+          price: product.price,
+          description: product.description,
+          imageUrl: product.imageUrl,
+        ),
+      );
+      notifyListeners();
+    });
   }
 
   Future<void> updateProduct(Product product) {

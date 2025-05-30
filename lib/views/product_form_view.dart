@@ -80,13 +80,28 @@ class _ProductFormViewState extends State<ProductFormView> {
     _globalKey.currentState?.save();
     setState(() => _isLoading = true);
 
-    Provider.of<ProductList>(
-      context,
-      listen: false,
-    ).saveProduct(_formData).then((value) {
-      setState(() => _isLoading = false);
-      Navigator.of(context).pop();
-    });
+    Provider.of<ProductList>(context, listen: false)
+        .saveProduct(_formData)
+        .catchError((error) {
+          return showDialog(
+            context: context,
+            builder:
+                (ctx) => AlertDialog(
+                  title: const Text('Ocorreu um erro!'),
+                  content: const Text('Erro ao salvar o produto. '),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: const Text('Fechar'),
+                    ),
+                  ],
+                ),
+          );
+        })
+        .then((value) {
+          setState(() => _isLoading = false);
+          Navigator.of(context).pop();
+        });
   }
 
   @override
