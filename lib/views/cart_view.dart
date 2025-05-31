@@ -60,29 +60,58 @@ class CartView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Provider.of<OrderList>(context, listen: false).addOrder(cart);
-                  cart.clear();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'COMPRAR',
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
+            SizedBox(width: double.infinity, child: CartButton(cart: cart)),
           ],
         ),
       ),
     );
+  }
+}
+
+class CartButton extends StatefulWidget {
+  const CartButton({super.key, required this.cart});
+
+  final Cart cart;
+
+  @override
+  State<CartButton> createState() => _CartButtonState();
+}
+
+class _CartButtonState extends State<CartButton> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? CircularProgressIndicator()
+        : ElevatedButton(
+          onPressed:
+              widget.cart.itemsCount == 0
+                  ? null
+                  : () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await Provider.of<OrderList>(
+                      context,
+                      listen: false,
+                    ).addOrder(widget.cart);
+                    widget.cart.clear();
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).primaryColor,
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: const Text(
+            'COMPRAR',
+            style: TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        );
   }
 }
