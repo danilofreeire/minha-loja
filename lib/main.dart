@@ -3,6 +3,7 @@ import 'package:minha_loja/models/cart.dart';
 import 'package:minha_loja/models/order_list.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/utils/app_routes.dart';
+import 'package:minha_loja/views/auth_view.dart';
 import 'package:minha_loja/views/cart_view.dart';
 import 'package:minha_loja/views/orders_view.dart';
 import 'package:minha_loja/views/prodcuts_overview_view.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         routes: {
+          AppRoutes.AUTH: (ctx) => AuthView(),
           AppRoutes.HOME: (ctx) => ProdcutsOverviewView(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailView(),
           AppRoutes.CART: (ctx) => CartView(),

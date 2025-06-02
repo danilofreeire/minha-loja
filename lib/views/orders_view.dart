@@ -4,8 +4,23 @@ import 'package:minha_loja/widgets/app_drawer.dart';
 import 'package:minha_loja/widgets/order_widget.dart';
 import 'package:provider/provider.dart';
 
-class OrdersView extends StatelessWidget {
+class OrdersView extends StatefulWidget {
   const OrdersView({super.key});
+
+  @override
+  State<OrdersView> createState() => _OrdersViewState();
+}
+
+class _OrdersViewState extends State<OrdersView> {
+  bool _isLoading = true;
+  initState() {
+    super.initState();
+    Provider.of<OrderList>(context, listen: false).loadOrders().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +32,13 @@ class OrdersView extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
       ),
-      body: ListView.builder(
-        itemCount: orders.ordersCount,
-        itemBuilder: (ctx, i) => OrderWidget(order: orders.orders[i]),
-      ),
+      body:
+          _isLoading
+              ? Center(child: CircularProgressIndicator())
+              : ListView.builder(
+                itemCount: orders.ordersCount,
+                itemBuilder: (ctx, i) => OrderWidget(order: orders.orders[i]),
+              ),
       drawer: AppDrawer(),
     );
   }
