@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AuthView extends StatelessWidget {
@@ -19,14 +21,42 @@ class AuthView extends StatelessWidget {
             ),
           ),
         ),
-        Center(
-          child: Card(
-            elevation: 8,
-            margin: const EdgeInsets.all(16),
-            child: const Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('Auth Form'),
-            ),
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 70,
+                  vertical: 10,
+                ),
+                transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  'Minha Loja',
+                  style: TextStyle(
+                    fontSize: 45,
+                    fontFamily: 'Anton',
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
