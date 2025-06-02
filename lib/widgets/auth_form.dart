@@ -144,7 +144,7 @@ class _AuthFormState extends State<AuthForm> {
                   children: [
                     if (_isLogin()) ...[
                       const TextSpan(
-                        text: 'Novo na PaPum?  ',
+                        text: 'Novo na Calim?  ',
                         style: TextStyle(color: Colors.black),
                       ),
                     ],

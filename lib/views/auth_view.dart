@@ -114,24 +114,6 @@ class AuthView extends StatelessWidget {
                           const SizedBox(height: 20),
 
                           // Link cadastre-se
-                          GestureDetector(
-                            onTap: () {},
-                            child: RichText(
-                              text: const TextSpan(
-                                text: 'Novo na PaPuM? ',
-                                style: TextStyle(color: Colors.black),
-                                children: [
-                                  TextSpan(
-                                    text: 'CADASTRE-SE',
-                                    style: TextStyle(
-                                      color: Colors.orange,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
