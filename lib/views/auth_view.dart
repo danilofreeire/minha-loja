@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:minha_loja/widgets/auth_form.dart';
 
 class AuthView extends StatelessWidget {
   const AuthView({super.key});
@@ -56,6 +57,7 @@ class AuthView extends StatelessWidget {
                   ),
                 ),
               ),
+              AuthForm(),
             ],
           ),
         ),
