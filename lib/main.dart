@@ -10,6 +10,7 @@ import 'package:minha_loja/views/prodcuts_overview_view.dart';
 import 'package:minha_loja/views/product_detail_view.dart';
 import 'package:minha_loja/views/product_form_view.dart';
 import 'package:minha_loja/views/products_view.dart';
+import 'package:minha_loja/widgets/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -30,11 +31,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.purple,
-          hintColor: Colors.deepOrange,
-          fontFamily: 'Lato',
-        ),
+        theme: AppTheme.theme,
         routes: {
           AppRoutes.AUTH: (ctx) => AuthView(),
           AppRoutes.HOME: (ctx) => ProdcutsOverviewView(),

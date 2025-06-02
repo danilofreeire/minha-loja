@@ -16,137 +16,150 @@ class _AuthFormState extends State<AuthForm> {
 
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {'email': '', 'password': ''};
+
   void _switchAuthMode() {
     setState(() {
-      _authMode =
-          _authMode == AuthMode.Login ? AuthMode.Signup : AuthMode.Login;
+      _authMode = _isLogin() ? AuthMode.Signup : AuthMode.Login;
     });
   }
 
   void _submit() {
     final isValid = _globalKey.currentState?.validate() ?? false;
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
     _globalKey.currentState?.save();
 
     if (_isLogin()) {
-      // Perform login logic
       print('Logging in with email: ${_authData['email']}');
     } else {
-      // Perform signup logic
       print('Signing up with email: ${_authData['email']}');
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() => _isLoading = false);
   }
 
-  bool _isLogin() {
-    return _authMode == AuthMode.Login;
-  }
-
-  bool _isSingup() {
-    return _authMode == AuthMode.Signup;
-  }
+  bool _isLogin() => _authMode == AuthMode.Login;
+  bool _isSignup() => _authMode == AuthMode.Signup;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final deviceSize = MediaQuery.of(context).size;
 
-    return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        width: deviceSize.width * 0.75,
-        height: _isLogin() ? 310 : 400,
-        child: Form(
-          key: _globalKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: 'E-mail'),
-                keyboardType: TextInputType.emailAddress,
-                onSaved: (email) {
-                  _authData['email'] = email ?? '';
-                },
-                validator: (_email) {
-                  final email = _email ?? '';
-
-                  if (_email == null ||
-                      _email.isEmpty ||
-                      !_email.contains('@')) {
-                    return 'Informe um e-mail válido!';
-                  }
-                  return null;
-                },
+    return Container(
+      padding: const EdgeInsets.all(8),
+      width: deviceSize.width * 0.75,
+      child: Form(
+        key: _globalKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Campo de E-mail
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'E-mail',
+                border: OutlineInputBorder(),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Senha'),
-                obscureText: true,
-                controller: _passwordController,
-                onSaved: (password) {
-                  _authData['password'] = password ?? '';
-                },
-                validator: (_password) {
-                  final password = _password ?? '';
+              keyboardType: TextInputType.emailAddress,
+              onSaved: (email) {
+                _authData['email'] = email ?? '';
+              },
+              validator: (_email) {
+                final email = _email ?? '';
+                if (email.isEmpty || !email.contains('@')) {
+                  return 'Informe um e-mail válido!';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
 
-                  if (_password == null ||
-                      _password.isEmpty ||
-                      _password.length < 6) {
-                    return 'A senha deve ter pelo menos 6 caracteres!';
-                  }
-                  return null;
-                },
+            // Campo de Senha
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Senha',
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.visibility_off),
               ),
-              if (_isSingup())
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Confirme a Senha'),
-                  obscureText: true,
-                  validator:
-                      _isLogin()
-                          ? null
-                          : (_password) {
-                            final password = _password ?? '';
+              obscureText: true,
+              controller: _passwordController,
+              onSaved: (password) {
+                _authData['password'] = password ?? '';
+              },
+              validator: (_password) {
+                final password = _password ?? '';
+                if (password.isEmpty || password.length < 6) {
+                  return 'A senha deve ter pelo menos 6 caracteres!';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
 
-                            if (_password != _passwordController.text) {
-                              return 'As senhas não coincidem!';
-                            }
-                            return null;
-                          },
+            // Campo de confirmação de senha (somente em modo Signup)
+            if (_isSignup())
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Confirme a Senha',
+                  border: OutlineInputBorder(),
                 ),
-              const SizedBox(height: 20),
-              if (_isLoading)
-                CircularProgressIndicator()
-              else
-                ElevatedButton(
+                obscureText: true,
+                validator: (_password) {
+                  if (_isLogin()) return null;
+                  if (_password != _passwordController.text) {
+                    return 'As senhas não coincidem!';
+                  }
+                  return null;
+                },
+              ),
+            if (_isSignup()) const SizedBox(height: 15),
+
+            const SizedBox(height: 10),
+
+            // Botão de envio
+            if (_isLoading)
+              const CircularProgressIndicator()
+            else
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  icon: Icon(_isLogin() ? Icons.login : Icons.app_registration),
+                  label: Text(_isLogin() ? 'ENTRAR' : 'REGISTRAR'),
                   onPressed: _submit,
-                  child: Text(_isLogin() ? 'Entrar' : 'Registrar'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 8,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    backgroundColor: theme.colorScheme.secondary,
+                    foregroundColor: theme.colorScheme.onPrimary,
                   ),
                 ),
-              Spacer(),
-              TextButton(
-                onPressed: _switchAuthMode,
-                child: Text(_isLogin() ? 'Registrar' : 'Já possui uma conta?'),
               ),
-            ],
-          ),
+            const SizedBox(height: 15),
+
+            // Botão para alternar entre login e cadastro
+            TextButton(
+              onPressed: _switchAuthMode,
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    if (_isLogin()) ...[
+                      const TextSpan(
+                        text: 'Novo na PaPum?  ',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ],
+                    TextSpan(
+                      text: _isLogin() ? ' Registrar' : 'Já possui uma conta?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
