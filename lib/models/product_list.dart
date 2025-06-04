@@ -8,13 +8,14 @@ import 'package:minha_loja/models/product.dart';
 import 'package:minha_loja/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
+  final String _userId;
   String _token;
   List<Product> _items = [];
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
       _items.where((product) => product.isFavorite).toList();
 
-  ProductList(this._token, this._items);
+  ProductList([this._token = ' ', this._userId = '', this._items = const []]);
 
   int get itemsCount {
     return _items.length;
@@ -28,9 +29,19 @@ class ProductList with ChangeNotifier {
     if (response.body == 'null') {
       return;
     }
+    final favResponse = await http.get(
+      Uri.parse('${Constants.USER_FAVORITES_URL}/${_userId}.json?auth=$_token'),
+    );
+
+    Map<String, dynamic> favData =
+        favResponse.body == 'null'
+            ? {}
+            : jsonDecode(favResponse.body) as Map<String, dynamic>;
+
     final Map<String, dynamic> data = jsonDecode(response.body);
 
     data.forEach((productId, productData) {
+      final isFavorite = favData[productId] ?? false;
       _items.add(
         Product(
           id: productId,
@@ -38,6 +49,7 @@ class ProductList with ChangeNotifier {
           price: productData['price'],
           description: productData['description'],
           imageUrl: productData['imageUrl'],
+          isFavorite: isFavorite as bool,
         ),
       );
     });

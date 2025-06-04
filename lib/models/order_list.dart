@@ -16,7 +16,8 @@ class OrderList with ChangeNotifier {
 
   int get ordersCount => _orders.length;
 
-  OrderList(this._token, this._orders);
+  OrderList([this._token = ' ', this._orders = const []]);
+
   Future<void> loadOrders() async {
     List<Order> orders = [];
 
