@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/auth.dart';
 import 'package:minha_loja/models/cart.dart';
+import 'package:minha_loja/models/order.dart';
 import 'package:minha_loja/models/order_list.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/utils/app_routes.dart';
@@ -34,8 +35,13 @@ class MyApp extends StatelessWidget {
             return ProductList(auth.token ?? '', previous?.items ?? []);
           },
         ),
+        ChangeNotifierProxyProvider<Auth, OrderList>(
+          create: (ctx) => OrderList('', []),
+          update: (ctx, auth, previous) {
+            return OrderList(auth.token ?? '', previous?.orders ?? []);
+          },
+        ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
-        ChangeNotifierProvider(create: (ctx) => OrderList()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
