@@ -4,6 +4,7 @@ import 'package:minha_loja/models/cart.dart';
 import 'package:minha_loja/models/order_list.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/utils/app_routes.dart';
+import 'package:minha_loja/views/auth_or_home_page.dart';
 import 'package:minha_loja/views/auth_view.dart';
 import 'package:minha_loja/views/cart_view.dart';
 import 'package:minha_loja/views/orders_view.dart';
@@ -35,8 +36,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: AppTheme.theme,
         routes: {
-          AppRoutes.AUTH: (ctx) => AuthView(),
-          AppRoutes.HOME: (ctx) => ProdcutsOverviewView(),
+          AppRoutes.AUTH_OR_HOME: (ctx) => AuthOrHomePage(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailView(),
           AppRoutes.CART: (ctx) => CartView(),
           AppRoutes.ORDERS: (ctx) => OrdersView(),

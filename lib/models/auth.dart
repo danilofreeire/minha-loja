@@ -5,8 +5,27 @@ import 'package:http/http.dart' as http;
 import 'package:minha_loja/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
-  static const _url =
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAQY_GptkgvwyJ7Rtz4CC5cI-2uFwcNylw';
+  String? _token;
+  String? _userId;
+  String? _email;
+  DateTime? _expiryDate;
+
+  bool get isAuth {
+    final isValid = _expiryDate != null && _expiryDate!.isAfter(DateTime.now());
+    return _token != null && isValid;
+  }
+
+  String? get token {
+    return isAuth ? _token : null;
+  }
+
+  String? get userId {
+    return isAuth ? _userId : null;
+  }
+
+  String? get email {
+    return isAuth ? _email : null;
+  }
 
   Future<void> _authenticate(
     String email,
@@ -29,8 +48,15 @@ class Auth with ChangeNotifier {
 
     if (body['error'] != null) {
       throw AuthException(body['error']['message'].toString());
+    } else {
+      _token = body['idToken'];
+      _userId = body['localId'];
+      _email = body['email'];
+      _expiryDate = DateTime.now().add(
+        Duration(seconds: int.parse(body['expiresIn'])),
+      );
+      notifyListeners();
     }
-    print(body);
   }
 
   Future<void> signUp(String email, String password) async {
