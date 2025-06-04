@@ -38,7 +38,6 @@ class ProductList with ChangeNotifier {
           price: productData['price'],
           description: productData['description'],
           imageUrl: productData['imageUrl'],
-          isFavorite: productData['isFavorite'] ?? false,
         ),
       );
     });
@@ -70,7 +69,6 @@ class ProductList with ChangeNotifier {
         'price': product.price,
         'description': product.description,
         'imageUrl': product.imageUrl,
-        'isFavorite': product.isFavorite,
       }),
     );
 
@@ -130,21 +128,3 @@ class ProductList with ChangeNotifier {
     }
   }
 }
-// bool _showFavoritesOnly = false;
-
-//   List<Product> get items {
-//     if (_showFavoritesOnly) {
-//       return _items.where((product) => product.isFavorite).toList();
-//     }
-//     return [..._items];
-//   }
-
-//   void showFavoritesOnly() {
-//     _showFavoritesOnly = true;
-//     notifyListeners();
-//   }
-
-//   void showAll() {
-//     _showFavoritesOnly = false;
-//     notifyListeners();
-//   }
