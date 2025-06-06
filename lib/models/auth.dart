@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:minha_loja/data/store.dart';
 import 'package:minha_loja/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
@@ -58,13 +57,6 @@ class Auth with ChangeNotifier {
       _expiryDate = DateTime.now().add(
         Duration(seconds: int.parse(body['expiresIn'])),
       );
-
-      Store.saveMap('userData', {
-        'token': _token,
-        'userId': _userId,
-        'email': _email,
-        'expiryDate': _expiryDate!.toIso8601String(),
-      });
       _autoLogout();
       notifyListeners();
     }
@@ -78,26 +70,6 @@ class Auth with ChangeNotifier {
   Future<void> login(String email, String password) async {
     return _authenticate(email, password, 'signInWithPassword');
     // Armazenar o token ou fazer outras ações necessárias
-  }
-
-  Future<void> tryAutoLogin() async {
-    if (isAuth) {
-      return;
-    }
-    final userData = await Store.getMap('userData');
-    if (userData.isEmpty) {
-      return;
-    }
-    final expiryDate = DateTime.parse(userData['expiryDate'] as String);
-    if (expiryDate.isBefore(DateTime.now())) {
-      return;
-    }
-    _token = userData['token'] as String?;
-    _userId = userData['userId'] as String?;
-    _email = userData['email'] as String?;
-    _expiryDate = expiryDate;
-    _autoLogout();
-    notifyListeners();
   }
 
   void logout() {
