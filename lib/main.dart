@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:minha_loja/models/auth.dart';
 import 'package:minha_loja/models/cart.dart';
-import 'package:minha_loja/models/order.dart';
 import 'package:minha_loja/models/order_list.dart';
 import 'package:minha_loja/models/product_list.dart';
 import 'package:minha_loja/utils/app_routes.dart';
 import 'package:minha_loja/views/auth_or_home_page.dart';
-import 'package:minha_loja/views/auth_view.dart';
 import 'package:minha_loja/views/cart_view.dart';
 import 'package:minha_loja/views/orders_view.dart';
-import 'package:minha_loja/views/prodcuts_overview_view.dart';
 import 'package:minha_loja/views/product_detail_view.dart';
 import 'package:minha_loja/views/product_form_view.dart';
 import 'package:minha_loja/views/products_view.dart';
@@ -42,7 +39,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, OrderList>(
           create: (ctx) => OrderList(),
           update: (ctx, auth, previous) {
-            return OrderList(auth.token ?? '', previous?.orders ?? []);
+            return OrderList(
+              auth.token ?? '',
+              previous?.orders ?? [],
+              auth.userId ?? '',
+            );
           },
         ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
