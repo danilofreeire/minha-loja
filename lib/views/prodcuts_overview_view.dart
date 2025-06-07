@@ -70,7 +70,7 @@ class _ProdcutsOverviewViewState extends State<ProdcutsOverviewView> {
               onPressed: () {
                 Navigator.of(context).pushNamed(AppRoutes.CART);
               },
-              icon: const Icon(Icons.shopping_cart),
+              icon: Icon(Icons.shopping_cart),
             ),
             builder:
                 (ctx, cart, child) =>

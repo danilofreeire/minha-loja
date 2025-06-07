@@ -24,7 +24,7 @@ class ProductGridItem extends StatelessWidget {
                   },
                   icon: Icon(
                     product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: Theme.of(context).hintColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
           ),
@@ -48,7 +48,7 @@ class ProductGridItem extends StatelessWidget {
               cart.addItem(product);
             },
             icon: const Icon(Icons.shopping_cart),
-            color: Theme.of(context).hintColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
 
           backgroundColor: Colors.black87,
