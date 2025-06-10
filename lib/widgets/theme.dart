@@ -34,7 +34,7 @@ class AppTheme {
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blue, width: 2),
         ),
-        labelStyle: const TextStyle(color: Color.fromARGB(255, 255, 0, 0)),
+        labelStyle: const TextStyle(color: Colors.black),
         floatingLabelStyle: const TextStyle(color: Colors.blue),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,

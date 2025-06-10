@@ -54,65 +54,6 @@ class AuthView extends StatelessWidget {
                           const AuthForm(), // ← Seus campos de e-mail e senha
                           const SizedBox(height: 10),
 
-                          const Divider(),
-                          const SizedBox(height: 10),
-
-                          // Texto social
-                          const Text(
-                            'QUERO ACESSAR COM MINHAS REDES SOCIAIS',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-
-                          // Botão Google
-                          SizedBox(
-                            width: double.infinity,
-                            child: OutlinedButton.icon(
-                              icon: const Icon(
-                                Icons.g_mobiledata,
-                                color: Colors.red,
-                              ),
-                              label: const Text(
-                                "Acessar com o Google",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: Colors.red),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-
-                          // Botão Apple
-                          SizedBox(
-                            width: double.infinity,
-                            child: OutlinedButton.icon(
-                              icon: const Icon(
-                                Icons.apple,
-                                color: Colors.black,
-                              ),
-                              label: const Text(
-                                "Acessar com a Apple",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              onPressed: () {},
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: Colors.black),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 14,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-
                           // Link cadastre-se
                         ],
                       ),

@@ -38,7 +38,7 @@ class _ProdcutsOverviewViewState extends State<ProdcutsOverviewView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Minha Loja'),
+        title: const Text('Produtos disponíveis na Calim'),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
         actions: [
